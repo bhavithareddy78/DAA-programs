@@ -1,0 +1,20 @@
+from itertools import combinations
+
+def subset_sum(arr, target):
+    n = len(arr)
+    left_half = arr[:n//2]
+    right_half = arr[n//2:]
+
+    left_sums = {sum(combo) for i in range(len(left_half) + 1) for combo in combinations(left_half, i)}
+    right_sums = {sum(combo) for i in range(len(right_half) + 1) for combo in combinations(right_half, i)}
+
+    for s in left_sums:
+        if (target - s) in right_sums:
+            return True
+    return False
+
+# Example usage
+arr = [3, 34, 4, 12, 5, 2]
+target = 9
+result = subset_sum(arr, target)
+print("Subset with the given sum exists:", result)
