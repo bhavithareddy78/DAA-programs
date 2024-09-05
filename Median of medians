@@ -1,0 +1,27 @@
+def partition(arr, pivot):
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return left, middle, right
+
+def select(arr, k):
+    if len(arr) <= 5:
+        return sorted(arr)[k]
+
+    medians = [sorted(arr[i:i+5])[len(arr[i:i+5]) // 2] for i in range(0, len(arr), 5)]
+    pivot = select(medians, len(medians) // 2)
+
+    left, middle, right = partition(arr, pivot)
+
+    if k < len(left):
+        return select(left, k)
+    elif k < len(left) + len(middle):
+        return pivot
+    else:
+        return select(right, k - len(left) - len(middle))
+
+# Example usage
+arr = [12, 3, 5, 7, 4, 19, 26]
+k = 3  # Finding the 4th smallest element (0-indexed)
+result = select(arr, k)
+print("The k-th smallest element is:", result)
