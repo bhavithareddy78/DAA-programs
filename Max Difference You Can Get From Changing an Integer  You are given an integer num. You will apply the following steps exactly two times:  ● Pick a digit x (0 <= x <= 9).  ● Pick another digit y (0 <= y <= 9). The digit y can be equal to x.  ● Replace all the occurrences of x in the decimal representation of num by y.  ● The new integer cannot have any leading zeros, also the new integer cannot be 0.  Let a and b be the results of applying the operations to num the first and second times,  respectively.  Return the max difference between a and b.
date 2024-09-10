@@ -1,0 +1,23 @@
+def maxDiff(num):
+    num_str = str(num)
+    max_num = num_str
+    min_num = num_str
+
+    for digit in num_str:
+        if digit != '9':
+            max_num = num_str.replace(digit, '9')
+            break
+
+    if num_str[0] != '1':
+        min_num = num_str.replace(num_str[0], '1')
+    else:
+        for digit in num_str[1:]:
+            if digit not in '01':
+                min_num = num_str.replace(digit, '0')
+                break
+
+    return int(max_num) - int(min_num)
+
+# Example usage:
+num = 9288
+print(maxDiff(num))  # Output: 8700
