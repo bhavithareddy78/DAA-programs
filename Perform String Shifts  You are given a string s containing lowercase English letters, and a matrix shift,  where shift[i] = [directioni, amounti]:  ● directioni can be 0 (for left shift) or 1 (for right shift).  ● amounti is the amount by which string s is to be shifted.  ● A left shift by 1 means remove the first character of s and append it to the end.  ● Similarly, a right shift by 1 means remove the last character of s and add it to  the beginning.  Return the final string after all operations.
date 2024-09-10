@@ -1,0 +1,11 @@
+def perform_string_shifts(s, shift):
+    net_shift = 0
+    for direction, amount in shift:
+        net_shift += amount if direction == 1 else -amount
+    net_shift %= len(s)
+    return s[-net_shift:] + s[:-net_shift] if net_shift else s
+
+# Example usage:
+s = "abcdef"
+shift = [[0, 1], [1, 2], [0, 3]]
+print(perform_string_shifts(s, shift))  # Output: "defabc"
