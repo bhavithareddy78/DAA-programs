@@ -1,0 +1,19 @@
+
+def unique_paths(m, n):
+    dp = [[1] * n for _ in range(m)]
+
+    for i in range(1, m):
+        for j in range(1, n):
+            dp[i][j] = dp[i-1][j] + dp[i][j-1]
+
+    return dp[m-1][n-1]
+
+# Given inputs
+input_1 = (7, 3)
+input_2 = (3, 2)
+
+output_1 = unique_paths(*input_1)
+output_2 = unique_paths(*input_2)
+
+print(f"For m={input_1[0]}, n={input_1[1]}, there are {output_1} unique paths.")
+print(f"For m={input_2[0]}, n={input_2[1]}, there are {output_2} unique paths.")
