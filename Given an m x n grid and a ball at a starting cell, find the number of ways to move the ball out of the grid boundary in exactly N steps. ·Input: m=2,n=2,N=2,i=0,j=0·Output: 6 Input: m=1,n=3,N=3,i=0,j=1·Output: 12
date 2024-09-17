@@ -1,0 +1,26 @@
+def findWays(m, n, N, i, j):
+    # Directions: right, left, down, up
+    directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+    
+    # Initialize DP table: dp[step][x][y]
+    dp = [[[0] * n for _ in range(m)] for _ in range(N + 1)]
+    dp[0][i][j] = 1
+    
+    for step in range(N):
+        next_dp = [[[0] * n for _ in range(m)] for _ in range(N + 1)]
+        for x in range(m):
+            for y in range(n):
+                for d in directions:
+                    nx, ny = x + d[0], y + d[1]
+                    if 0 <= nx < m and 0 <= ny < n:
+                        next_dp[x][y] += dp[step][nx][ny]
+                    else:
+                        next_dp[x][y] += 1
+        dp = next_dp
+    
+    # Total ways to move out of the boundary in exactly N steps
+    return sum(dp[x][y] for x in range(m) for y in range(n))
+
+# Example usage:
+print(findWays(2, 2, 2, 0, 0))  # Output: 6
+print(findWays(1, 3, 3, 0, 1))  # Output: 12
