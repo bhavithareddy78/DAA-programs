@@ -1,0 +1,27 @@
+import heapq
+from collections import defaultdict
+
+def maxProbability(n, edges, succProb, start, end):
+    graph = defaultdict(list)
+    for (a, b), prob in zip(edges, succProb):
+        graph[a].append((b, prob))
+        graph[b].append((a, prob))
+    
+    max_prob = [0] * n
+    max_prob[start] = 1
+    priority_queue = [(-1, start)]  # Use negative because heapq is a min-heap
+    
+    while priority_queue:
+        curr_prob, u = heapq.heappop(priority_queue)
+        curr_prob = -curr_prob
+        
+        if u == end:
+            return curr_prob
+        
+        for v, prob in graph[u]:
+            new_prob = curr_prob * prob
+            if new_prob > max_prob[v]:
+                max_prob[v] = new_prob
+                heapq.heappush(priority_queue, (-new_prob, v))
+    
+    return 0
