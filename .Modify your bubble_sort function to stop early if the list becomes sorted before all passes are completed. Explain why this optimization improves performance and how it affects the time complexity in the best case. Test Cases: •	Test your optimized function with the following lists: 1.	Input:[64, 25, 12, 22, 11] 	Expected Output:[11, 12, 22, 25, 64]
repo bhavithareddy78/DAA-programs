@@ -1,0 +1,18 @@
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        swapped = False  # Flag to check if any swaps were made
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                # Swap elements if they are in the wrong order
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+        # If no elements were swapped, the list is sorted
+        if not swapped:
+            break
+    return arr
+
+# Test case
+input_list = [64, 25, 12, 22, 11]
+sorted_list = bubble_sort(input_list.copy())  # Use .copy() to preserve the original list
+print("Sorted List:", sorted_list)
