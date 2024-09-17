@@ -1,0 +1,28 @@
+def is_hamiltonian_cycle_util(graph, path, pos, n):
+    if pos == n:
+        return path[pos - 1] in graph[path[0]]
+    
+    for v in range(1, n):
+        if v not in path and path[pos - 1] in graph[v]:
+            path[pos] = v
+            if is_hamiltonian_cycle_util(graph, path, pos + 1, n):
+                return True
+            path[pos] = -1
+    
+    return False
+
+def is_hamiltonian_cycle(edges, n):
+    graph = [[] for _ in range(n)]
+    for u, v in edges:
+        graph[u].append(v)
+        graph[v].append(u)
+    
+    path = [-1] * n
+    path[0] = 0
+    
+    return is_hamiltonian_cycle_util(graph, path, 1, n)
+
+# Example usage
+edges = [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2), (2, 4), (4, 0)]
+n = 5
+print("Hamiltonian cycle exists:", is_hamiltonian_cycle(edges, n))
