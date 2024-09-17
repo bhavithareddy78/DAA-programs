@@ -1,0 +1,25 @@
+def min_containers_greedy(weights, max_capacity):
+    weights.sort(reverse=True)  # Sort in non-increasing order
+    num_containers = 0
+    current_capacity = 0
+
+    for weight in weights:
+        if current_capacity + weight <= max_capacity:
+            current_capacity += weight
+        else:
+            num_containers += 1
+            current_capacity = weight
+
+    # Account for the last partially filled container
+    if current_capacity > 0:
+        num_containers += 1
+
+    return num_containers
+
+# Given input (Test Case 1)
+weights1 = [5, 10, 15, 20, 25, 30, 35]
+max_capacity1 = 50
+
+output1 = min_containers_greedy(weights1, max_capacity1)
+
+print(f"The minimum number of containers required is: {output1}")
