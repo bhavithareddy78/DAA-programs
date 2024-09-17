@@ -1,0 +1,21 @@
+def climb_stairs(n):
+    if n <= 1:
+        return 1
+
+    dp = [0] * (n + 1)
+    dp[0] = dp[1] = 1
+
+    for i in range(2, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+
+    return dp[n]
+
+# Given inputs
+input_1 = 4
+input_2 = 3
+
+output_1 = climb_stairs(input_1)
+output_2 = climb_stairs(input_2)
+
+print(f"For n = {input_1}, there are {output_1} distinct ways to climb.")
+print(f"For n = {input_2}, there are {output_2} distinct ways to climb.")
