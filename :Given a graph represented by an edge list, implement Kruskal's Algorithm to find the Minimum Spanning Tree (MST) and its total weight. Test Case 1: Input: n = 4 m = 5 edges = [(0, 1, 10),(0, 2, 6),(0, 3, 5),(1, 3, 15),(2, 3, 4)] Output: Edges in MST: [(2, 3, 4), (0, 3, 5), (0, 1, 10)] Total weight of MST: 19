@@ -1,0 +1,46 @@
+class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+
+    def find(self, u):
+        if self.parent[u] != u:
+            self.parent[u] = self.find(self.parent[u])
+        return self.parent[u]
+
+    def union(self, u, v):
+        root_u, root_v = self.find(u), self.find(v)
+        if root_u == root_v:
+            return False  # Already in the same component
+        if self.rank[root_u] < self.rank[root_v]:
+            self.parent[root_u] = root_v
+        elif self.rank[root_u] > self.rank[root_v]:
+            self.parent[root_v] = root_u
+        else:
+            self.parent[root_v] = root_u
+            self.rank[root_u] += 1
+        return True
+
+def kruskal(edges, n):
+    edges.sort(key=lambda x: x[2])  # Sort edges by weight
+    uf = UnionFind(n)
+    mst_edges = []
+    total_weight = 0
+
+    for u, v, weight in edges:
+        if uf.union(u, v):
+            mst_edges.append((u, v, weight))
+            total_weight += weight
+            if len(mst_edges) == n - 1:
+                break
+
+    return mst_edges, total_weight
+
+# Given input (Test Case 1)
+edges1 = [(0, 1, 10), (0, 2, 6), (0, 3, 5), (1, 3, 15), (2, 3, 4)]
+n1 = 4
+
+mst_edges1, total_weight1 = kruskal(edges1, n1)
+
+print(f"Edges in MST: {mst_edges1}")
+print(f"Total weight of MST: {total_weight1}")
