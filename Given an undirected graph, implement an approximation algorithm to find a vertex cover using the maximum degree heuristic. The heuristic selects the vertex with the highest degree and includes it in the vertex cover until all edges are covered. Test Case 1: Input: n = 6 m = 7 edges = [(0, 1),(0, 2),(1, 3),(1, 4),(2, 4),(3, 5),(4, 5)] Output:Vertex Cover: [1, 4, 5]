@@ -1,0 +1,28 @@
+def max_degree_heuristic(edges):
+    # Create a dictionary to store the degree of each vertex
+    degree = {}
+    for u, v in edges:
+        degree[u] = degree.get(u, 0) + 1
+        degree[v] = degree.get(v, 0) + 1
+
+    # Sort vertices by degree in descending order
+    sorted_vertices = sorted(degree.keys(), key=lambda v: degree[v], reverse=True)
+
+    vertex_cover = set()
+    covered_edges = set()
+
+    for v in sorted_vertices:
+        if v not in vertex_cover:
+            vertex_cover.add(v)
+            for u, w in edges:
+                if u == v or w == v:
+                    covered_edges.add((u, w))
+
+    return vertex_cover
+
+# Given input (Test Case 1)
+edges1 = [(0, 1), (0, 2), (1, 3), (1, 4), (2, 4), (3, 5), (4, 5)]
+
+vertex_cover1 = max_degree_heuristic(edges1)
+
+print(f"Vertex Cover: {list(vertex_cover1)}")
