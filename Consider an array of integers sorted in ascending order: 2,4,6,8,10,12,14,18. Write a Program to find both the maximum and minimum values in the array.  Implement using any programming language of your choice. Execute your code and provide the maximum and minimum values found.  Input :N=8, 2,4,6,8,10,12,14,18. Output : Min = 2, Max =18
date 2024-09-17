@@ -1,0 +1,17 @@
+def find_min_max(arr):
+    # Assuming the input array is already sorted in ascending order
+    if not arr:
+        return None, None  # Empty array case
+    
+    min_val = arr[0]
+    max_val = arr[-1]
+    
+    return min_val, max_val
+
+# Given input array
+input_array = [2, 4, 6, 8, 10, 12, 14, 18]
+
+# Call the function to find min and max
+min_value, max_value = find_min_max(input_array)
+
+print(f"Min = {min_value}, Max = {max_value}")
