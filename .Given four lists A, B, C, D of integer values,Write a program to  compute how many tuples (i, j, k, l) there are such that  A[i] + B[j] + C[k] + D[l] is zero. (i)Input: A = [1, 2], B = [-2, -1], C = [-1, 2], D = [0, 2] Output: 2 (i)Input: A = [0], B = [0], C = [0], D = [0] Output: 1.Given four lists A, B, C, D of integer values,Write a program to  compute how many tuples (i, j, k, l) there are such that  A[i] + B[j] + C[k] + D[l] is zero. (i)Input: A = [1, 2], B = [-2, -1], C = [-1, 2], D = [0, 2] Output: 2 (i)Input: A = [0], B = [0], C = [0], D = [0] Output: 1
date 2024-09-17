@@ -1,0 +1,25 @@
+def four_sum_zero_count(A, B, C, D):
+    # Create a dictionary to store the sum of pairs from A and B
+    ab_sums = {}
+    for a in A:
+        for b in B:
+            ab_sum = a + b
+            ab_sums[ab_sum] = ab_sums.get(ab_sum, 0) + 1
+
+    count = 0
+    for c in C:
+        for d in D:
+            cd_sum = c + d
+            count += ab_sums.get(-cd_sum, 0)
+
+    return count
+
+# Given input
+A1, B1, C1, D1 = [1, 2], [-2, -1], [-1, 2], [0, 2]
+A2, B2, C2, D2 = [0], [0], [0], [0]
+
+output1 = four_sum_zero_count(A1, B1, C1, D1)
+output2 = four_sum_zero_count(A2, B2, C2, D2)
+
+print(f"For the first input, there are {output1} tuples with sum zero.")
+print(f"For the second input, there is {output2} tuple with sum zero.")
