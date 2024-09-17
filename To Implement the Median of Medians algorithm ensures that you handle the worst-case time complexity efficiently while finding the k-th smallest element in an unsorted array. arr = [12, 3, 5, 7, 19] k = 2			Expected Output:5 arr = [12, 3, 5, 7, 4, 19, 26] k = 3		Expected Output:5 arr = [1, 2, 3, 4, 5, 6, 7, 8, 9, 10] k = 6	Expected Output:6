@@ -1,0 +1,50 @@
+def partition(arr, low, high):
+    # Helper function to partition the array around a pivot
+    pivot = arr[high]
+    i = low
+    for j in range(low, high):
+        if arr[j] < pivot:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+    arr[i], arr[high] = arr[high], arr[i]
+    return i
+
+def median_of_medians(arr, low, high, k):
+    if low == high:
+        return arr[low]
+
+    # Divide the array into groups of 5
+    num_groups = (high - low + 1) // 5
+    medians = []
+
+    for i in range(num_groups):
+        group_low = low + i * 5
+        group_high = min(group_low + 4, high)
+        medians.append(median_of_medians(arr, group_low, group_high, 2))
+
+    pivot = median_of_medians(medians, 0, len(medians) - 1, len(medians) // 2)
+
+    pivot_index = partition(arr, low, high)
+    if pivot_index == k:
+        return arr[pivot_index]
+    elif pivot_index < k:
+        return median_of_medians(arr, pivot_index + 1, high, k)
+    else:
+        return median_of_medians(arr, low, pivot_index - 1, k)
+
+# Given input arrays
+arr1 = [12, 3, 5, 7, 19]
+arr2 = [12, 3, 5, 7, 4, 19, 26]
+arr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+k1 = 2
+k2 = 3
+k3 = 6
+
+result1 = median_of_medians(arr1, 0, len(arr1) - 1, k1)
+result2 = median_of_medians(arr2, 0, len(arr2) - 1, k2)
+result3 = median_of_medians(arr3, 0, len(arr3) - 1, k3)
+
+print(f"For arr1, k={k1}, the k-th smallest element is {result1}.")
+print(f"For arr2, k={k2}, the k-th smallest element is {result2}.")
+print(f"For arr3, k={k3}, the k-th smallest element is {result3}.")
