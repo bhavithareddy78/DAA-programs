@@ -1,0 +1,50 @@
+import heapq
+
+def dijkstra(graph, source):
+    n = len(graph)
+    dist = [float('inf')] * n
+    dist[source] = 0
+
+    pq = [(0, source)]  # Priority queue: (distance, vertex)
+
+    while pq:
+        d, u = heapq.heappop(pq)
+        if d > dist[u]:
+            continue  # Skip outdated entries
+
+        for v in range(n):
+            if graph[u][v] != float('inf'):
+                new_dist = dist[u] + graph[u][v]
+                if new_dist < dist[v]:
+                    dist[v] = new_dist
+                    heapq.heappush(pq, (new_dist, v))
+
+    return dist
+
+# Given input (Test Case 1)
+graph1 = [
+    [0, 10, 3, float('inf'), float('inf')],
+    [float('inf'), 0, 1, 2, float('inf')],
+    [float('inf'), 4, 0, 8, 2],
+    [float('inf'), float('inf'), float('inf'), 0, 7],
+    [float('inf'), float('inf'), float('inf'), 9, 0]
+]
+source1 = 0
+
+# Given input (Test Case 2)
+graph2 = [
+    [0, 5, float('inf'), 10],
+    [float('inf'), 0, 3, float('inf')],
+    [float('inf'), float('inf'), 0, 1],
+    [float('inf'), float('inf'), float('inf'), 0]
+]
+source2 = 0
+
+output1 = dijkstra(graph1, source1)
+output2 = dijkstra(graph2, source2)
+
+print(f"For Test Case 1, the shortest distances from source {source1} are:")
+print(output1)
+
+print(f"For Test Case 2, the shortest distances from source {source2} are:")
+print(output2)
