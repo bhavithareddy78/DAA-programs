@@ -1,0 +1,58 @@
+def is_valid_color(graph, colors, v, c):
+    for neighbor in graph[v]:
+        if colors[neighbor] == c:
+            return False
+    return True
+
+def graph_coloring_util(graph, colors, m, v):
+    if v == len(graph):
+        return True
+    for c in range(1, m+1):
+        if is_valid_color(graph, colors, v, c):
+            colors[v] = c
+            if graph_coloring_util(graph, colors, m, v + 1):
+                return True
+            colors[v] = 0
+    return False
+
+def min_colors(graph):
+    for m in range(1, len(graph) + 1):
+        colors = [0] * len(graph)
+        if graph_coloring_util(graph, colors, m, 0):
+            return m
+    return len(graph)
+
+def max_regions_colored(num_colors):
+    return max(0, num_colors - 2)
+
+def is_hamiltonian_cycle_util(graph, path, pos):
+    if pos == len(graph):
+        return path[pos - 1] in graph[path[0]]
+    for v in range(len(graph)):
+        if (v not in path) and (path[pos - 1] in graph[v]):
+            path[pos] = v
+            if is_hamiltonian_cycle_util(graph, path, pos + 1):
+                return True
+            path[pos] = -1
+    return False
+
+def is_hamiltonian_cycle(graph):
+    path = [-1] * len(graph)
+    path[0] = 0
+    return is_hamiltonian_cycle_util(graph, path, 1)
+
+edges = [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2)]
+n = 4
+k = 3
+
+graph = [[] for _ in range(n)]
+for u, v in edges:
+    graph[u].append(v)
+    graph[v].append(u)
+
+num_colors = min_colors(graph)
+max_colored = max_regions_colored(num_colors)
+
+print("Minimum number of colors required:", num_colors)
+print("Maximum number of regions you can color:", max_colored)
+print("Hamiltonian cycle exists:", is_hamiltonian_cycle(graph))
