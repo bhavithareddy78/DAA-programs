@@ -1,0 +1,18 @@
+def greedy_vertex_cover(edges):
+    vertex_cover = set()
+    covered_edges = set()
+
+    for u, v in edges:
+        if u not in vertex_cover and v not in vertex_cover:
+            vertex_cover.add(u)
+            vertex_cover.add(v)
+            covered_edges.add((u, v))
+
+    return vertex_cover
+
+# Given input (Test Case 1)
+edges1 = [(0, 1), (0, 2), (1, 2), (1, 3), (2, 4), (3, 4)]
+
+vertex_cover1 = greedy_vertex_cover(edges1)
+
+print(f"Vertex Cover: {list(vertex_cover1)}")
